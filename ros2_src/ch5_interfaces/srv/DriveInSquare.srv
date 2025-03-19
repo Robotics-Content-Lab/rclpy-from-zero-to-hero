@@ -1,0 +1,4 @@
+int32 times
+float32 length
+---
+bool success

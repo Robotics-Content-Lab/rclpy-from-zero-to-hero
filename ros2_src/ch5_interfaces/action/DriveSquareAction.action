@@ -1,0 +1,11 @@
+# Request
+float32 side_length  # length of each side of the square in meters
+int32 repetitions  # number of times to drive around the square
+int32 time_limit  # time limit before aborting the action
+---
+# Result
+bool success
+---
+# Feedback
+int32 current_iteration
+int32 current_side

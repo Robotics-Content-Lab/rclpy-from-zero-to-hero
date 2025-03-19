@@ -1,0 +1,5 @@
+# Request
+float32 altitude
+---
+# Response
+bool success

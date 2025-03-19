@@ -1,0 +1,286 @@
+<sdf version='1.7'>
+  <model name='turtlebot3_burger'>
+    <link name='base_footprint'>
+      <inertial>
+        <pose>-0.00429 0 0.030734 0 -0 0</pose>
+        <mass>0.944735</mass>
+        <inertia>
+          <ixx>0.72694</ixx>
+          <ixy>4.6864e-10</ixy>
+          <ixz>0.000541791</ixz>
+          <iyy>0.727073</iyy>
+          <iyz>2.85826e-09</iyz>
+          <izz>0.655182</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_footprint_fixed_joint_lump__base_link_collision'>
+        <pose>-0.032 0 0.08 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.14 0.14 0.143</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__camera_link_collision_1'>
+        <pose>0.047175 0 0.151938 0 0.174 0</pose>
+        <geometry>
+          <box>
+            <size>0.015 0.03 0.027</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__caster_back_link_collision_2'>
+        <pose>-0.081 1e-06 0.005 -1.57 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.03 0.009 0.02</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__base_scan_collision_3'>
+        <pose>-0.017 0 0.1755 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.0315</length>
+            <radius>0.055</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='base_footprint_fixed_joint_lump__base_link_visual'>
+        <pose>-0.032 0 0.01 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://turltebot3_burger_camera/meshes/burger_base.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__base_scan_visual_1'>
+        <pose>-0.032 0 0.182 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://turltebot3_burger_camera/meshes/lds.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <sensor name='camera' type='camera'>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <camera name='camera'>
+          <horizontal_fov>1.39626</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+        </camera>
+        <plugin name='camera_controller' filename='libgazebo_ros_camera.so'>
+          <alwaysOn>1</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>camera</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>camera_link</frameName>
+          <hackBaseline>0.07</hackBaseline>
+        </plugin>
+        <pose>0.04 -0.011 0.14 0 0.174 0</pose>
+      </sensor>
+      <sensor name='imu' type='imu'>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <plugin name='turtlebot3_imu' filename='libgazebo_ros_imu_sensor.so'>
+          <ros>
+            <remapping>~/out:=imu</remapping>
+          </ros>
+        </plugin>
+        <pose>-0.032 0 0.078 0 -0 0</pose>
+      </sensor>
+      <sensor name='hls_lfcd_lds' type='ray'>
+        <always_on>1</always_on>
+        <visualize>1</visualize>
+        <update_rate>5</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>6.28</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.12</min>
+            <max>3.5</max>
+            <resolution>0.015</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <update_rate>30</update_rate>
+        <plugin name='turtlebot3_laserscan' filename='libgazebo_ros_ray_sensor.so'>
+          <ros>
+            <remapping>~/out:=scan</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>base_scan</frame_name>
+        </plugin>
+        <pose>-0.032 0 0.182 0 -0 0</pose>
+      </sensor>
+      <plugin filename='libgazebo_ros_diff_drive.so' name='turtlebot3_diff_drive'>
+        <ros/>
+        <update_rate>30</update_rate>
+        <left_joint>wheel_left_joint</left_joint>
+        <right_joint>wheel_right_joint</right_joint>
+        <wheel_separation>0.16</wheel_separation>
+        <wheel_diameter>0.066</wheel_diameter>
+        <max_wheel_torque>20</max_wheel_torque>
+        <max_wheel_acceleration>1.0</max_wheel_acceleration>
+        <command_topic>cmd_vel</command_topic>
+        <publish_odom>1</publish_odom>
+        <publish_odom_tf>1</publish_odom_tf>
+        <publish_wheel_tf>0</publish_wheel_tf>
+        <odometry_topic>odom</odometry_topic>
+        <odometry_frame>odom</odometry_frame>
+        <robot_base_frame>base_footprint</robot_base_frame>
+      </plugin>
+      <plugin filename='libgazebo_ros_joint_state_publisher.so' name='turtlebot3_joint_state'>
+        <ros>
+          <remapping>~/out:=joint_states</remapping>
+        </ros>
+        <update_rate>30</update_rate>
+        <joint_name>wheel_left_joint</joint_name>
+        <joint_name>wheel_right_joint</joint_name>
+      </plugin>
+    </link>
+    <joint name='wheel_left_joint' type='revolute'>
+      <pose relative_to='base_footprint'>0 0.08 0.033 -1.57 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>wheel_left_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='wheel_left_link'>
+      <pose relative_to='wheel_left_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.0284989</mass>
+        <inertia>
+          <ixx>0.00181582</ixx>
+          <ixy>-9.3392e-12</ixy>
+          <ixz>1.04909e-11</ixz>
+          <iyy>0.00329221</iyy>
+          <iyz>5.75694e-11</iyz>
+          <izz>0.00181582</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel_left_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.018</length>
+            <radius>0.033</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='wheel_left_link_visual'>
+        <pose>0 0 0 1.57 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://turltebot3_burger_camera/meshes/left_tire.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='wheel_right_joint' type='revolute'>
+      <pose relative_to='base_footprint'>0 -0.08 0.033 -1.57 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>wheel_right_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='wheel_right_link'>
+      <pose relative_to='wheel_right_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.0284989</mass>
+        <inertia>
+          <ixx>0.00181582</ixx>
+          <ixy>-9.3392e-12</ixy>
+          <ixz>1.04909e-11</ixz>
+          <iyy>0.00329221</iyy>
+          <iyz>5.75694e-11</iyz>
+          <izz>0.00181582</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel_right_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.018</length>
+            <radius>0.033</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='wheel_right_link_visual'>
+        <pose>0 0 0 1.57 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://turltebot3_burger_camera/meshes/right_tire.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

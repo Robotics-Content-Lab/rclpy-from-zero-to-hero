@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Function to clean up on exit
+cleanup() {
+  PYTHON_PID=$(ps -ef | grep "sjtu_drone_bringup.launch.py" | grep -v grep | awk '{print $2}')
+  GZSERVER_PID=$(ps -ef | grep "gzserver" | grep -v grep | awk '{print $2}')
+  kill -- -${GZSERVER_PID} 2> /dev/null || true
+  kill -- -${PYTHON_PID} 2> /dev/null || true
+  killall xterm 2> /dev/null || true
+
+  unset DRONE_NAMESPACE DRONE_TAKEOFF_TOPIC DRONE_LAND_TOPIC DRONE_CMDVEL_TOPIC
+}
+
+# Trap the EXIT signal to run the cleanup function
+trap cleanup EXIT
+
+
+# Source the ROS 2 environment
+source /opt/ros/${ROS_DISTRO}/setup.bash
+
+# Define variables
+DRONE_NAMESPACE="simple_drone"
+DRONE_TAKEOFF_TOPIC="/${DRONE_NAMESPACE}/takeoff"
+DRONE_LAND_TOPIC="/${DRONE_NAMESPACE}/land"
+DRONE_CMDVEL_TOPIC="/${DRONE_NAMESPACE}/cmd_vel"
+
+
+# Helper function to wait for topics to be available
+wait_for_topics() {
+  echo "Waiting for topics..."
+  until ros2 topic list | grep -q "$DRONE_TAKEOFF_TOPIC" && ros2 topic list | grep -q "$DRONE_LAND_TOPIC" && ros2 topic list | grep -q "$DRONE_CMDVEL_TOPIC"; do
+    sleep 1
+  done
+  echo "Topics found!"
+}
+
+# Starting the simulation
+xterm -hold -e "ros2 launch sjtu_drone_bringup sjtu_drone_bringup.launch.py use_gui:=false fixed_frame:=world" &

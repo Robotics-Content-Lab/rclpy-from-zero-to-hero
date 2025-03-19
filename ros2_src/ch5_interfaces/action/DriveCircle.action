@@ -1,0 +1,10 @@
+# Request
+float32 radius  # radius of the circle in meters
+int32 repetitions  # number of times to drive around the circle
+int32 time_limit  # timeout before aborting the action
+---
+# Result
+bool success
+---
+# Feedback
+int32 current_iteration

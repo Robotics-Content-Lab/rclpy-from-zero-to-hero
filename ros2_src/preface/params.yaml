@@ -1,0 +1,6 @@
+differential_drive_node:
+    ros__parameters:
+        wheel_radius: 0.2
+        baseline_distance: 0.4
+        max_linear_velocity: 0.8
+        max_angular_velocity: 2.0
