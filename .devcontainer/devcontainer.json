@@ -1,0 +1,96 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+    "image": "ghcr.io/robotics-content-lab/rclpy-from-zero-to-hero:jazzy-desktop-vnc-nvidia", // ghcr.io/robotics-content-lab/rclpy-from-zero-to-hero:${ROS2-VERSION}-{BASE}-{UI}-{GRAPHICS-PLATFORM}
+	// "dockerFile": "Dockerfile",  // optional: built the image from a custom dockerfile
+	// "build": {
+	// 	"target": "vnc", // ["terminal", "vnc"]
+	// 	"args": {
+	// 		"GRAPHICS_PLATFORM": "standard", // ["standard", "nvidia", "amd"]
+	// 		"ROS_DISTRO": "iron", // ["iron", "humble"]
+	// 		"BASE_PACKAGE": "desktop", // ["desktop", "base"]
+	// 		"NVIDIA_DRIVER_CAPABILITIES": "all", // ["all", "graphics", "utility", "compute"] or a combination of these
+	// 		"NVIDIA_VISIBLE_DEVICES": "all" // ["all", "none", "0,1,2,3", ...]
+	// 	}
+	// },
+	"remoteUser": "ros_user",
+
+	"features": {
+		"ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+	},
+	"mounts": [
+		"source=claude-code-config,target=/home/ros_user/.claude,type=volume"
+	],
+
+	// Commands to run before, during and after starting the container //
+		// (Linux/OSX only) //
+		// "initializeCommand": "xhost + || true",  // allow the container to access the X11 server
+	"onCreateCommand": "sudo chown ros_user:ros_user /home/ros_user/.claude; bash /home/ros_user/build_ws.sh || true",  // fix .claude volume ownership; sources the ros2 workspaces (~/sim_ws, ~/ros2_ws)
+	"updateContentCommand": "sudo bash /home/ros_user/.vnc/startup.sh || true", // (vnc UI only) starts the vnc server
+
+
+	// Set run arguments for the container //
+	"runArgs": [
+		// Mount the local workspace folder into the container //
+		"--mount", "type=bind,source=${localWorkspaceFolder}/ros2_src/,target=/home/ros_user/ros2_ws/src", // mount the ros2_src folder into the container
+		
+		// Resource settings //
+		// "--shm-size=512m", // this sets the shared memory size to 512MB (needed for rviz2)
+		"--gpus=all",  // this is needed for hardware acceleration on nvidia gpus
+		// "--device", "/dev/dri:/dev/dri", // this is needed for hardware acceleration on amd gpus
+		"--privileged",
+		
+		// Network settings //
+		"--publish", "0.0.0.0:6080:80",  // this is needed for the noVNC web interface
+		"--publish", "0.0.0.0:6900:5901",  // this is needed for the VNC server
+		
+		// Container settings //
+			// Linux Host //
+				"--volume", "/tmp/.X11-unix:/tmp/.X11-unix:rw", // (Linux only) needed for X11 forwarding
+			// OSX Silicon Host //
+				// "--volume", "/tmp/.X11-unix:/tmp/.X11-unix:rw", // (OSX only) needed for X11 forwarding
+		"--rm",  // remove the container when it is stopped
+		"--name", "rclpy-from-zero-to-hero-iron"  // name the container
+	],
+
+
+	// Set environment variables for the container //
+	"remoteEnv": {
+		"VNC_WIDTH": "1920", // set the width of the VNC server
+		"VNC_HEIGHT": "1080", // set the height of the VNC server
+		"DISPLAY": ":1", // sets the display to VNC server inside container
+		// Linux Host //
+			// "DISPLAY": "${localEnv:DISPLAY}", // sets the X11 display for linux (alternative for direct X11 forwarding)
+			"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}", // sets the wayland display for linux
+			"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}" // sets the XDG_RUNTIME_DIR for linux
+		// OSX Silicon Host //
+			// "DISPLAY": "host.docker.internal:0", // sets the X11 display for OSX
+			// "WAYLAND_DISPLAY": "host.docker.internal:0", // sets the wayland display for OSX
+			// "XDG_RUNTIME_DIR": "/tmp", // sets the XDG_RUNTIME_DIR for OSX
+			// "LIBGL_ALWAYS_SOFTWARE": "1", // Needed for software rendering of opengl (only needed on Apple Silicon)
+	},
+	
+	// Set *default* container specific settings.json values on container create.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+                "althack.ament-task-provider",
+                "DotJoshJohnson.xml",
+                "ms-azuretools.vscode-docker",
+                "ms-python.python",
+                "ms-vscode.cpptools",
+                "redhat.vscode-yaml",
+                "smilerobotics.urdf",
+                "twxs.cmake",
+                "yzhang.markdown-all-in-one",
+                "zachflower.uncrustify",
+                "ms-iot.vscode-ros",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-toolsai.jupyter"
+			],
+			"settings": {
+				"files.eol": "\n",
+				"editor.wordWrap": "on"
+			}
+		}
+	}
+}

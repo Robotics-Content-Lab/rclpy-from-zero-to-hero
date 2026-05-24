@@ -4,5 +4,5 @@
 # paths to the custom models and resources provided by this package
 {
     "name": "project",
-    "hooks": ["share/project/hook/hook_gazebo.sh"]    
+    "hooks": ["share/project/hook/hook_gz.sh"]
 } 

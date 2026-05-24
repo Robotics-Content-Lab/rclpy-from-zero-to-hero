@@ -7,7 +7,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
 from launch.actions import Shutdown
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 import xacro
 
@@ -102,12 +102,23 @@ def generate_launch_description():
         clock_bridge,
         topic_bridge,
 
+        # Spawn via ros_gz_sim's `create` executable — it speaks gz-transport
+        # directly, so no ROS<->gz service bridge is needed for /world/default/create.
+        # robot_state_publisher above publishes the URDF on /robot_description, which
+        # `-topic` consumes. Yaw arg stays in degrees for book continuity; convert here.
         Node(
-            package='project',
-            executable='spawn_robot',
-            arguments=[robot_desc],
-            parameters=[{'x_pos': x_pos, 'y_pos': y_pos, 'yaw': yaw}],
+            package='ros_gz_sim',
+            executable='create',
             output='screen',
+            arguments=[
+                '-world', 'default',
+                '-topic', 'robot_description',
+                '-name', 'turtlebot3_burger',
+                '-x', x_pos,
+                '-y', y_pos,
+                '-z', '0.01',
+                '-Y', PythonExpression([yaw, ' * 0.017453292519943295']),
+            ],
         ),
 
         Node(
