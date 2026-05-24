@@ -1,5 +1,18 @@
 # Behavior Test — Phase BL4 (ch4 KF/EKF filters + hw4 EKF holonomic; rosbag-driven offline)
 
+**Status:** ⏳ Pending execution — prerequisites met as of 2026-05-24.
+
+**Prerequisites now met:**
+- `transforms3d ≥ 0.4.2` pip override in container Dockerfile (NumPy 2 safe)
+- `ros_gz_sim create` used for all spawn operations (no service bridge needed)
+- B1–B7 code migration committed on `jazzy-migration` branch
+
+**Phase note:** ⭐ Rosbag-driven and fully offline — no Gazebo required. Bags already in `ros2_src/ch4/bag/`. Good candidate to run early and independently of Gazebo-dependent phases.
+
+**Still required:** Execute all verification steps inside `ghcr.io/robotics-content-lab/rclpy-from-zero-to-hero:jazzy-desktop-vnc-nvidia`. Record results in `plans/executions/behavior-test-bl4-execution.md`.
+
+---
+
 **Phase:** BL4 (filters)
 **Packages under test:**
 - [ros2_src/ch4](../ros2_src/ch4) — 5 nodes (`odometry_comparison`, `kf`, `kf2`, `ekf`, `ekf2`); 4 launches (`kf.launch.py`, `kf2.launch.py`, `ekf.launch.py`, `ekf2.launch.py`).

@@ -1,5 +1,19 @@
 # Behavior Test — Phase BL6 (project capstone: perception + Nav2 + controller)
 
+**Status:** ⏳ Pending execution — prerequisites met as of 2026-05-24.
+
+**Prerequisites now met:**
+- `transforms3d ≥ 0.4.2` pip override in container Dockerfile (NumPy 2 safe)
+- `ros_gz_sim create` used for all spawn operations (no service bridge needed)
+- B1–B7 code migration committed on `jazzy-migration` branch
+- `project.world` ambient-color bug fixed ✅
+
+**Phase note:** Full capstone — depends on the `project` simulation launching cleanly. Pre-req: B5 smoke-test issues (ambient-color bug, spawn bridge) are resolved in the current code.
+
+**Still required:** Execute all verification steps inside `ghcr.io/robotics-content-lab/rclpy-from-zero-to-hero:jazzy-desktop-vnc-nvidia`. Record results in `plans/executions/behavior-test-bl6-execution.md`.
+
+---
+
 **Phase:** BL6 (project capstone: TurtleBot3 + Gazebo Harmonic + OpenCV detection + Nav2 + controller)
 
 **Launches under test:**

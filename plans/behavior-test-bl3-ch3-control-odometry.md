@@ -1,5 +1,18 @@
 # Behavior Test — Phase BL3 (ch3 control + diff-drive odometry; hw3 trajectory)
 
+**Status:** ⏳ Pending execution — prerequisites met as of 2026-05-24.
+
+**Prerequisites now met:**
+- `transforms3d ≥ 0.4.2` pip override in container Dockerfile (NumPy 2 safe)
+- `ros_gz_sim create` used for all spawn operations (no service bridge needed)
+- B1–B7 code migration committed on `jazzy-migration` branch
+
+**Phase note:** TB3 sim confirmed green in B3 smoke ✅. Import canary must include `utils.utils.math` (exercises the `tf_transformations` path).
+
+**Still required:** Execute all verification steps inside `ghcr.io/robotics-content-lab/rclpy-from-zero-to-hero:jazzy-desktop-vnc-nvidia`. Record results in `plans/executions/behavior-test-bl3-execution.md`.
+
+---
+
 **Phase:** BL3 (chapter-3 control & odometry; homework-3 trajectory)
 **Packages:** `ros2_src/ch3`, `ros2_src/hw3_pkg`
 **Tracks:** the BL3 row in [/home/georg/.claude/plans/i-m-working-on-porting-glistening-gray.md](../../../.claude/plans/i-m-working-on-porting-glistening-gray.md) — *"Open-loop drives N seconds at commanded velocity. P/PID converge ... Square closure error < 0.3 m. Diff-drive odometry traverse delta ≈ commanded delta ±30%."*

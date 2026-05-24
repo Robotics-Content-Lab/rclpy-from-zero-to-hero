@@ -1,5 +1,18 @@
 # Behavior Test — Phase BL1 (pub/sub basics)
 
+**Status:** ⏳ Pending execution — prerequisites met as of 2026-05-24.
+
+**Prerequisites now met:**
+- `transforms3d ≥ 0.4.2` pip override in container Dockerfile (NumPy 2 safe)
+- `ros_gz_sim create` used for all spawn operations (no service bridge needed)
+- B1–B7 code migration committed on `jazzy-migration` branch
+
+**Phase note:** No known blockers. Run this phase first.
+
+**Still required:** Execute all verification steps inside `ghcr.io/robotics-content-lab/rclpy-from-zero-to-hero:jazzy-desktop-vnc-nvidia`. Record results in `plans/executions/behavior-test-bl1-execution.md`.
+
+---
+
 **Phase:** BL1 (pub/sub basics)
 **Launches / runs under test:**
 - `ros2 launch ch1 first_pub_sub.launch.py`

@@ -1,5 +1,18 @@
 # Behavior Test — Phase BL2 (ch2 QoS + threading, hw2 marker counts)
 
+**Status:** ⏳ Pending execution — prerequisites met as of 2026-05-24.
+
+**Prerequisites now met:**
+- `transforms3d ≥ 0.4.2` pip override in container Dockerfile (NumPy 2 safe)
+- `ros_gz_sim create` used for all spawn operations (no service bridge needed)
+- B1–B7 code migration committed on `jazzy-migration` branch
+
+**Phase note:** hw2 uses `sklearn.cluster.DBSCAN` — confirm NumPy 2 / sklearn ABI via import canary before starting. Pre-req: B3 smoke green ✅.
+
+**Still required:** Execute all verification steps inside `ghcr.io/robotics-content-lab/rclpy-from-zero-to-hero:jazzy-desktop-vnc-nvidia`. Record results in `plans/executions/behavior-test-bl2-execution.md`.
+
+---
+
 **Phase:** BL2 (behavior layer, builds on B3 launch-level smoke test)
 **Packages under test:**
 - [ros2_src/ch2](../ros2_src/ch2) — 11 nodes from [setup.py:24-37](../ros2_src/ch2/setup.py#L24-L37): blocking, qos_publisher1, qos_publisher, qos_subscriber1, qos_subscriber2, qos_subscriber, mutually_exclusive, concurrent, long_running_operation, manual_spin, async_spin.

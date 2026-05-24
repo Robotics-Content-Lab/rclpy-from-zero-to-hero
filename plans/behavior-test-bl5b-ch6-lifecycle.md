@@ -1,5 +1,18 @@
 # Behavior Test — Phase BL5b (ch6 lifecycle nodes on sjtu_drone)
 
+**Status:** ⏳ Pending execution — prerequisites met as of 2026-05-24.
+
+**Prerequisites now met:**
+- `transforms3d ≥ 0.4.2` pip override in container Dockerfile (NumPy 2 safe)
+- `ros_gz_sim create` used for all spawn operations (no service bridge needed)
+- B1–B7 code migration committed on `jazzy-migration` branch
+
+**Phase note:** sjtu_drone confirmed working (nodes, topics, clock) in the B4 smoke test ✅.
+
+**Still required:** Execute all verification steps inside `ghcr.io/robotics-content-lab/rclpy-from-zero-to-hero:jazzy-desktop-vnc-nvidia`. Record results in `plans/executions/behavior-test-bl5b-execution.md`.
+
+---
+
 **Phase:** BL5b (behavior layer, builds on B4 launch-level smoke test).
 **Packages under test:** [ros2_src/ch6](../ros2_src/ch6) — two executables registered in [setup.py:24-29](../ros2_src/ch6/setup.py#L24-L29): `drone_lifecycle` and `drone_lifecycle2`. Launch [ch6/launch/simulation.launch.py](../ros2_src/ch6/launch/simulation.launch.py) delegates entirely to `sjtu_drone_bringup/launch/sjtu_drone_gazebo.launch.py` plus a teleop Node under `xterm -e`.
 

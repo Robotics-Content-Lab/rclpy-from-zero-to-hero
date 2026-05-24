@@ -1,5 +1,18 @@
 # Behavior Test — Phase BL5a (ch5 services + actions on Robotino)
 
+**Status:** ⏳ Pending execution — prerequisites met as of 2026-05-24.
+
+**Prerequisites now met:**
+- `transforms3d ≥ 0.4.2` pip override in container Dockerfile (NumPy 2 safe)
+- `ros_gz_sim create` used for all spawn operations (no service bridge needed)
+- B1–B7 code migration committed on `jazzy-migration` branch
+
+**Phase note:** ⚠️ Verify `robotino_description` is fully built in the container before starting — this was the blocking issue in the B4 smoke test (Classic deps prevented the package from being installed). Check with `ros2 pkg prefix robotino_description` before proceeding.
+
+**Still required:** Execute all verification steps inside `ghcr.io/robotics-content-lab/rclpy-from-zero-to-hero:jazzy-desktop-vnc-nvidia`. Record results in `plans/executions/behavior-test-bl5a-execution.md`.
+
+---
+
 **Phase:** BL5a (behavior layer, builds on B4 launch-level smoke test)
 **Packages under test:**
 - [ros2_src/ch5](../ros2_src/ch5) — 6 entry points from [setup.py:24-33](../ros2_src/ch5/setup.py#L24-L33):
